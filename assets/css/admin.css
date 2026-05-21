@@ -1,0 +1,137 @@
+/**
+ * Админские блоки Modern Botanical.
+ *
+ * НАЗНАЧЕНИЕ:
+ *   Узкий CSS-слой для админских страниц. Сейчас хранит таблицу пользователей,
+ *   переключатели приватности, выбор роли и индикаторы статуса, чтобы
+ *   `domain.css` оставался в допустимом лимите.
+ */
+
+/*  1. АДМИНКА: ТАБЛИЦА ПОЛЬЗОВАТЕЛЕЙ   */
+
+.user-table { width: 100%; border-collapse: collapse; }
+.admin-users-page .user-table { min-width: 1230px; }
+.admin-users-page .user-table th:first-child,
+.admin-users-page .user-table td:first-child {
+    width: auto;
+    min-width: 420px;
+}
+.admin-users-page .user-table th:nth-child(2),
+.admin-users-page .user-table td:nth-child(2) { width: 140px; min-width: 140px; }
+.admin-users-page .user-table th:nth-child(3),
+.admin-users-page .user-table td:nth-child(3) { width: 140px; min-width: 140px; }
+.admin-users-page .user-table th:nth-child(4),
+.admin-users-page .user-table td:nth-child(4) { width: 170px; min-width: 170px; }
+.admin-users-page .user-table th:nth-child(5),
+.admin-users-page .user-table td:nth-child(5) { width: 328px; min-width: 328px; padding-right: var(--space-5); }
+.user-table thead th {
+    text-align: left; padding: var(--space-3); font-size: var(--text-xs);
+    text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--color-text-muted); font-weight: 600;
+    border-bottom: 1px solid var(--color-outline-faint);
+}
+.user-table tbody td {
+    padding: var(--space-3); font-size: var(--text-sm); color: var(--color-text);
+    border-bottom: 1px solid var(--color-outline-faint); vertical-align: middle;
+}
+.user-table tbody tr:last-child td { border-bottom: none; }
+.user-table tbody tr:hover { background: var(--color-surface-low); }
+.user-table .user-actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    padding-right: var(--space-2);
+}
+.user-table .user-actions .btn {
+    width: var(--control-height-md);
+    min-width: var(--control-height-md);
+    min-height: var(--control-height-md);
+    height: var(--control-height-md);
+    padding-inline: 0;
+    flex: 0 0 var(--control-height-md);
+}
+
+.user-role-select {
+    padding: 0.35rem 1.75rem 0.35rem var(--space-2);
+    background: var(--color-surface-low);
+    border: 1px solid var(--color-outline-light); border-radius: var(--radius-sm);
+    font-family: var(--font-body); font-size: var(--text-xs);
+    color: var(--color-text); cursor: pointer;
+}
+.select-control-user-role { width: 196px; flex: 0 0 196px; }
+.tag-status-active  { background: var(--color-success); color: #fff; }
+.tag-status-blocked { background: var(--color-error); color: #fff; }
+
+/* 2. АДМИНКА: РЕДАКТИРОВАНИЕ ПОЛЬЗОВАТЕЛЯ    */
+
+.toggle-row {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: var(--space-3); padding: var(--space-3) 0;
+    border-top: 1px solid var(--color-outline-faint);
+}
+.toggle-row:first-child { border-top: none; padding-top: 0; }
+.toggle-label { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.toggle-label-text { font-size: var(--text-sm); font-weight: 600; color: var(--color-text); }
+.toggle-label-hint { font-size: var(--text-xs); color: var(--color-text-muted); }
+
+.toggle-switch {
+    position: relative; width: 48px; height: 26px; flex-shrink: 0;
+    cursor: pointer;
+}
+.toggle-switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.toggle-track {
+    position: absolute; inset: 0; border-radius: var(--radius-full);
+    background: var(--color-surface-dim); transition: background var(--duration-fast);
+}
+.toggle-track::after {
+    content: ''; position: absolute; top: 2px; left: 2px;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--color-surface); box-shadow: var(--shadow-sm);
+    transition: transform var(--duration-fast);
+}
+.toggle-switch input:checked + .toggle-track { background: var(--color-primary); }
+.toggle-switch input:checked + .toggle-track::after { transform: translateX(22px); }
+
+.role-options {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: var(--space-3);
+}
+.role-option { position: relative; }
+.role-option input { position: absolute; opacity: 0; width: 0; height: 0; }
+.role-option-label {
+    display: flex; gap: var(--space-2); align-items: center;
+    padding: var(--space-3) var(--space-4);
+    background: var(--color-surface-low);
+    border: 2px solid var(--color-outline-faint); border-radius: var(--radius-md);
+    cursor: pointer; transition: all var(--duration-fast);
+    color: var(--color-text-secondary); font-size: var(--text-sm); font-weight: 500;
+}
+.role-option-label [data-lucide] { width: 18px; height: 18px; }
+.role-option input:checked + .role-option-label {
+    border-color: var(--color-primary); background: var(--color-primary);
+    color: var(--color-on-primary);
+}
+.role-option input:checked + .role-option-label [data-lucide] { color: var(--color-on-primary); }
+
+.input-prefix-wrap { display: flex; align-items: stretch; }
+.input-prefix {
+    display: flex; align-items: center; padding: 0 var(--space-3);
+    background: var(--color-surface-mid);
+    border: 1px solid var(--color-outline-light);
+    border-right: none;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+    color: var(--color-text-secondary); font-weight: 600;
+}
+.input-prefix-wrap .form-input { border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+
+.status-indicator {
+    display: inline-flex; align-items: center; gap: var(--space-2);
+    padding: var(--space-1) var(--space-3); border-radius: var(--radius-full);
+    background: var(--color-surface-low);
+    font-size: var(--text-xs); font-weight: 600;
+}
+.status-indicator.is-active  { background: rgba(91, 140, 90, 0.12); color: var(--color-success); }
+.status-indicator.is-blocked { background: rgba(196, 64, 64, 0.12); color: var(--color-error); }
+.status-dot {
+    width: 8px; height: 8px; border-radius: 50%; background: currentColor; flex-shrink: 0;
+}
