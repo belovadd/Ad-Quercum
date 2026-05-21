@@ -1,0 +1,84 @@
+# Ad Quercum: Корневой .htaccess
+#
+# НАЗНАЧЕНИЕ:
+# 1. Запрет доступа к служебным директориям
+# 2. Точка входа (/ → /public/index.html)
+# 3. Запрет исполнения скриптов в uploads/
+# 4. Заголовки безопасности
+# 5. Кодировка UTF-8
+
+#  1. ОБЩИЕ НАСТРОЙКИ  #
+
+# Кодировка по умолчанию
+AddDefaultCharset UTF-8
+
+# Запрет листинга директорий
+Options -Indexes
+
+# Запрет серверной подписи (может быть запрещено в .htaccess — не критично)
+<IfModule mod_autoindex.c>
+    ServerSignature Off
+</IfModule>
+
+# 2. ОГРАНИЧЕНИЕ ДОСТУПА  #
+
+# Запрет доступа к конфигурационным файлам и служебным директориям
+<FilesMatch "^\.">
+    Require all denied
+</FilesMatch>
+
+# Запрет доступа к служебным директориям
+# (разрешены только api/, public/, assets/, uploads/)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(config|core|services|repositories|migrations|!etc)/ - [F,L]
+</IfModule>
+
+# Запрет доступа к .md и .sql файлам
+<FilesMatch "\.(md|sql)$">
+    Require all denied
+</FilesMatch>
+
+# Запрет доступа к CLAUDE.md
+<Files "CLAUDE.md">
+    Require all denied
+</Files>
+
+#  3. ТОЧКА ВХОДА  #
+
+# Редирект с корня на главную страницу
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^$ public/index.html [L]
+</IfModule>
+
+#  4. БЕЗОПАСНОСТЬ UPLOADS  #
+
+# Запрет исполнения PHP в директории uploads
+<IfModule mod_rewrite.c>
+    RewriteRule ^uploads/.*\.php$ - [F,L]
+</IfModule>
+
+#  5. ЗАГОЛОВКИ БЕЗОПАСНОСТИ  #
+
+<IfModule mod_headers.c>
+    # Защита от MIME-sniffing
+    Header set X-Content-Type-Options "nosniff"
+
+    # Защита от clickjacking
+    Header set X-Frame-Options "SAMEORIGIN"
+
+    # XSS-фильтр браузера
+    Header set X-XSS-Protection "1; mode=block"
+
+    # Referrer Policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+#  6. ТИПЫ КОНТЕНТА  #
+
+# JSON
+<IfModule mod_mime.c>
+    AddType application/json .json
+    AddType image/x-icon .ico
+</IfModule>
