@@ -1,0 +1,215 @@
+<!--
+ * @file public/club.html
+ * 🌐 СТРАНИЦА: Клуб — карточка-шапка, участники, публикации, управление.
+ *
+ * @package AdQuercum
+ * @author dianaBELOVA
+ *
+ * НАЗНАЧЕНИЕ:
+ *   Показывает публичную страницу клуба с шапкой, участниками, публикациями,
+ *   комментариями и действиями владельца или модератора.
+ *
+ * СТРУКТУРА:
+ *   1. НАВИГАЦИЯ
+ *   2. КОНТЕНТ
+ *   3. СКРИПТЫ
+ *
+ *   Адрес: `club.html?id=<id>`.
+ -->
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="">
+    <title>Клуб — Ad Quercum</title>
+
+    <link rel="icon" href="../assets/images/favicon.ico?v=release" sizes="any">
+    <link rel="icon" href="../assets/images/favicon-512x512.png?v=release" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png?v=release">
+    <meta name="theme-color" content="#5B8C5A">
+
+    <link rel="stylesheet" href="../assets/fonts/fonts.css?v=release">
+    <link rel="stylesheet" href="../assets/css/global.css?v=release">
+    <link rel="stylesheet" href="../assets/css/components.css?v=release">
+    <link rel="stylesheet" href="../assets/css/domain.css?v=release">
+    <link rel="stylesheet" href="../assets/css/layouts.css?v=release">
+
+    <script src="../assets/js/vendor/lucide.min.js?v=release"></script>
+</head>
+<body class="is-app-booting">
+
+<!-- ========================================================================= -->
+<!-- === 🧱 1. НАВИГАЦИЯ === -->
+<!-- ========================================================================= -->
+
+<div id="navigation"></div>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 2. КОНТЕНТ === -->
+<!-- ========================================================================= -->
+
+<main class="container club-page">
+
+    <nav class="breadcrumb">
+        <a href="index.html">Главная</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="clubs.html">Клубы</a>
+        <span class="breadcrumb-separator">/</span>
+        <span id="club-breadcrumb-name">Клуб</span>
+    </nav>
+
+    <h1 id="club-page-title" class="statistics-title">Клуб</h1>
+
+    <!-- Карточка-шапка клуба -->
+    <section id="club-header">
+        <p>Загрузка…</p>
+    </section>
+
+    <!-- Форма редактирования -->
+    <section id="edit-club-section" class="section-card is-hidden">
+        <header class="section-card-header">
+            <div>
+                <h2 class="section-card-title">Редактирование клуба</h2>
+            </div>
+        </header>
+
+        <form id="edit-club-form" class="clubs-form">
+            <div class="form-field">
+                <label class="form-label" for="edit-club-name">Название</label>
+                <input id="edit-club-name" class="form-input" type="text" maxlength="255" required>
+            </div>
+            <div class="form-field">
+                <label class="form-label" for="edit-club-description">Описание</label>
+                <textarea id="edit-club-description" class="form-input form-textarea"
+                          maxlength="2000" rows="3"></textarea>
+            </div>
+            <div class="form-field">
+                <label class="form-toggle">
+                    <input id="edit-club-public" type="checkbox" hidden>
+                    <span class="form-toggle-track"><span class="form-toggle-dot"></span></span>
+                    <span class="form-toggle-label">Публичный клуб</span>
+                </label>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+                <button type="button" id="cancel-edit-button" class="btn btn-ghost">Отмена</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Загрузка изображения клуба -->
+    <section id="upload-image-section" class="section-card is-hidden">
+        <header class="section-card-header">
+            <div>
+                <h2 class="section-card-title">Изображение клуба</h2>
+            </div>
+        </header>
+        <form id="upload-image-form">
+            <div class="form-field">
+                <span class="form-label">Файл (JPEG, PNG, WebP)</span>
+                <div class="club-file-upload">
+                    <input id="club-image-input" class="is-hidden" type="file"
+                           accept="image/jpeg,image/png,image/webp">
+                    <button id="club-image-choose-button" class="btn btn-outlined btn-sm" type="button">
+                        <i data-lucide="upload"></i>
+                        Выбрать файл
+                    </button>
+                    <span id="club-image-filename" class="club-file-name">Файл не выбран</span>
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    <i data-lucide="upload"></i>
+                    Загрузить
+                </button>
+                <button type="button" id="cancel-upload-button" class="btn btn-ghost">Отмена</button>
+            </div>
+        </form>
+    </section>
+
+    <!-- Заявки на вступление -->
+    <section id="club-join-requests-section" class="content-section club-join-requests-section is-hidden">
+        <header class="section-header">
+            <div id="club-join-requests-title" class="section-title">Заявки</div>
+        </header>
+        <div id="club-join-requests-list" class="member-list"></div>
+    </section>
+
+    <!-- Участники клуба -->
+    <section class="content-section members-section">
+        <header class="section-header members-section-header">
+            <div id="members-title" class="section-title">Участники</div>
+            <button id="toggle-members-button" class="btn btn-outlined btn-sm" type="button">
+                <i data-lucide="chevron-down"></i>
+                <span>Развернуть</span>
+            </button>
+        </header>
+        <div id="members-panel" class="is-hidden">
+            <div id="members-list" class="member-list"></div>
+            <nav id="members-pagination" class="pagination" aria-label="Пагинация"></nav>
+        </div>
+    </section>
+
+    <!-- Форма создания публикации в клубе -->
+    <section id="club-publication-form" class="content-section publication-composer is-hidden">
+        <textarea id="club-publication-text" class="pub-form-textarea"
+                  placeholder="Напишите что-нибудь для клуба..." rows="3"></textarea>
+
+        <div class="pub-form-footer">
+            <div id="club-publication-book-search" class="pub-form-book-search"></div>
+            <button id="club-publish-button" class="btn btn-primary" type="button">
+                <i data-lucide="send"></i>
+                Опубликовать
+            </button>
+        </div>
+    </section>
+
+    <!-- Публикации клуба -->
+    <section class="content-section">
+        <header class="section-header">
+            <div class="section-title">Публикации</div>
+        </header>
+
+        <div id="publications-list" class="publication-list"></div>
+        <nav id="publications-pagination" class="pagination" aria-label="Пагинация"></nav>
+    </section>
+
+</main>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 3. СКРИПТЫ === -->
+<!-- ========================================================================= -->
+
+<!-- Core -->
+<script src="../assets/js/core/constants.js?v=release"></script>
+<script src="../assets/js/core/api_client.js?v=release"></script>
+<script src="../assets/js/core/page_registry.js?v=release"></script>
+<script src="../assets/js/core/router.js?v=release"></script>
+<script src="../assets/js/core/auth_guard.js?v=release"></script>
+<script src="../assets/js/core/notification.js?v=release"></script>
+<script src="../assets/js/core/app_confirm.js?v=release"></script>
+<script src="../assets/js/core/utils.js?v=release"></script>
+
+<!-- Services -->
+<script src="../assets/js/services/auth_service.js?v=release"></script>
+<script src="../assets/js/services/club_service.js?v=release"></script>
+<script src="../assets/js/services/social_service.js?v=release"></script>
+<script src="../assets/js/services/book_service.js?v=release"></script>
+<script src="../assets/js/services/library_service.js?v=release"></script>
+
+<!-- Components -->
+<script src="../assets/js/components/navigation_component.js?v=release"></script>
+<script src="../assets/js/components/empty_state_component.js?v=release"></script>
+<script src="../assets/js/components/pagination_component.js?v=release"></script>
+<script src="../assets/js/components/club_header_component.js?v=release"></script>
+<script src="../assets/js/components/member_card_component.js?v=release"></script>
+<script src="../assets/js/components/publication_card_component.js?v=release"></script>
+<script src="../assets/js/components/timer_book_search_component.js?v=release"></script>
+
+<!-- Page -->
+<script src="../assets/js/pages/club.js?v=release"></script>
+<script src="../assets/js/pages/club_handlers.js?v=release"></script>
+
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!--
+ * @file public/book.html
+ * 🌐 СТРАНИЦА: Произведение — work-header + сетка изданий + рецензии + заметки.
+ *
+ * @package AdQuercum
+ * @author dianaBELOVA
+ *
+ * НАЗНАЧЕНИЕ:
+ *   Произведение — work-header + сетка изданий + рецензии + заметки.
+ *
+ * СТРУКТУРА:
+ *   1. НАВИГАЦИЯ
+ *   2. КОНТЕНТ
+ *   3. СКРИПТЫ
+ -->
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="">
+    <title>Произведение — Ad Quercum</title>
+
+    <link rel="icon" href="../assets/images/favicon.ico?v=release" sizes="any">
+    <link rel="icon" href="../assets/images/favicon-512x512.png?v=release" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png?v=release">
+    <meta name="theme-color" content="#5B8C5A">
+
+    <link rel="stylesheet" href="../assets/fonts/fonts.css?v=release">
+    <link rel="stylesheet" href="../assets/css/global.css?v=release">
+    <link rel="stylesheet" href="../assets/css/components.css?v=release">
+    <link rel="stylesheet" href="../assets/css/domain.css?v=release">
+    <link rel="stylesheet" href="../assets/css/layouts.css?v=release">
+
+    <script src="../assets/js/vendor/lucide.min.js?v=release"></script>
+</head>
+<body class="is-app-booting">
+
+<!-- ========================================================================= -->
+<!-- === 🧱 1. НАВИГАЦИЯ === -->
+<!-- ========================================================================= -->
+
+<div id="navigation"></div>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 2. КОНТЕНТ === -->
+<!-- ========================================================================= -->
+
+<main class="container book-page">
+
+    <nav class="breadcrumb">
+        <a href="library.html">Библиотека</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Произведение</span>
+    </nav>
+
+    <!-- Шапка произведения: cover + title/author + meta + actions (рендерит work_header_component) -->
+    <section id="work-header"></section>
+
+    <!-- Статус чтения -->
+    <section class="section-card">
+        <header class="section-card-header">
+            <div class="section-card-title">Статус чтения</div>
+        </header>
+        <div id="reading-status-row" class="status-row"></div>
+    </section>
+
+    <!-- Обёртка для сетки изданий: саму .editions-grid создаёт pages/book.js -->
+    <section class="section-card">
+        <header class="section-card-header">
+            <h2 class="section-card-title">
+                Издания <span id="editions-count" class="section-card-count"></span>
+            </h2>
+            <button id="add-edition-button" class="btn btn-primary btn-sm" type="button">
+                <i data-lucide="plus"></i>
+                Добавить издание
+            </button>
+        </header>
+        <div id="editions-grid"></div>
+    </section>
+
+    <!-- Секция «Ваша оценка» -->
+    <section id="rate-form-section" class="section-card rate-form-section">
+        <header class="section-card-header">
+            <h2 class="section-card-title">Ваша оценка</h2>
+        </header>
+        <div id="rate-form-container"></div>
+    </section>
+
+    <!-- Секция «Рецензии» -->
+    <section class="section-card reviews-section">
+        <header class="section-card-header">
+            <div>
+                <h2 class="section-card-title">Рецензии</h2>
+                <p class="section-card-subtitle">Отзывы читателей произведения</p>
+            </div>
+        </header>
+        <div id="rates-list" class="rates-list"></div>
+    </section>
+
+    <!-- Секция «Заметки» -->
+    <section class="notes-section">
+        <header class="notes-header">
+            <div class="notes-title-wrap">
+                <h2 class="notes-title">Заметки</h2>
+                <span id="notes-count" class="notes-count">0</span>
+            </div>
+            <div id="notes-filters" class="notes-filters" aria-label="Фильтр заметок">
+                <button class="notes-filter is-active" type="button" data-note-filter="all">Все</button>
+                <button class="notes-filter" type="button" data-note-filter="quote">Цитаты</button>
+                <button class="notes-filter" type="button" data-note-filter="thought">Рассуждения</button>
+                <button class="notes-filter" type="button" data-note-filter="question">Вопросы</button>
+                <button class="notes-filter" type="button" data-note-filter="idea">Идеи</button>
+            </div>
+        </header>
+        <div id="notes-list" class="notes-list"></div>
+    </section>
+
+</main>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 3. СКРИПТЫ === -->
+<!-- ========================================================================= -->
+
+<!-- Core -->
+<script src="../assets/js/core/constants.js?v=release"></script>
+<script src="../assets/js/core/api_client.js?v=release"></script>
+<script src="../assets/js/core/page_registry.js?v=release"></script>
+<script src="../assets/js/core/router.js?v=release"></script>
+<script src="../assets/js/core/auth_guard.js?v=release"></script>
+<script src="../assets/js/core/notification.js?v=release"></script>
+<script src="../assets/js/core/app_confirm.js?v=release"></script>
+<script src="../assets/js/core/utils.js?v=release"></script>
+
+<!-- Services -->
+<script src="../assets/js/services/auth_service.js?v=release"></script>
+<script src="../assets/js/services/book_service.js?v=release"></script>
+<script src="../assets/js/services/library_service.js?v=release"></script>
+<script src="../assets/js/services/timer_service.js?v=release"></script>
+
+<!-- Components -->
+<script src="../assets/js/services/social_service.js?v=release"></script>
+<script src="../assets/js/components/navigation_component.js?v=release"></script>
+<script src="../assets/js/components/empty_state_component.js?v=release"></script>
+<script src="../assets/js/components/star_rating_component.js?v=release"></script>
+<script src="../assets/js/components/work_header_component.js?v=release"></script>
+<script src="../assets/js/components/edition_card_component.js?v=release"></script>
+<script src="../assets/js/components/edition_form_component.js?v=release"></script>
+<script src="../assets/js/components/book_create_form_component.js?v=release"></script>
+<script src="../assets/js/components/book_card_component.js?v=release"></script>
+<script src="../assets/js/components/note_card_component.js?v=release"></script>
+<script src="../assets/js/components/publication_card_component.js?v=release"></script>
+
+<!-- Page -->
+<script src="../assets/js/pages/book_collection_handlers.js?v=release"></script>
+<script src="../assets/js/pages/book.js?v=release"></script>
+
+</body>
+</html>

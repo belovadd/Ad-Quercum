@@ -1,0 +1,124 @@
+<!--
+ * @file public/login.html
+ * 🌐 СТРАНИЦА: Вход — компактный auth-layout без navbar, с theme-toggle.
+ *
+ * @package AdQuercum
+ * @author dianaBELOVA
+ *
+ * НАЗНАЧЕНИЕ:
+ *   Вход — компактный auth-layout без navbar, с theme-toggle.
+ *
+ * СТРУКТУРА:
+ *   1. ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ
+ *   2. ФОРМА ВХОДА
+ *   3. COOKIE-УВЕДОМЛЕНИЕ
+ *   4. СКРИПТЫ
+ -->
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="">
+    <title>Вход — Ad Quercum</title>
+
+    <link rel="icon" href="../assets/images/favicon.ico?v=release" sizes="any">
+    <link rel="icon" href="../assets/images/favicon-512x512.png?v=release" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png?v=release">
+    <meta name="theme-color" content="#5B8C5A">
+
+    <link rel="stylesheet" href="../assets/fonts/fonts.css?v=release">
+    <link rel="stylesheet" href="../assets/css/global.css?v=release">
+    <link rel="stylesheet" href="../assets/css/components.css?v=release">
+    <link rel="stylesheet" href="../assets/css/domain.css?v=release">
+    <link rel="stylesheet" href="../assets/css/layouts.css?v=release">
+
+    <script src="../assets/js/vendor/lucide.min.js?v=release"></script>
+</head>
+<body class="auth-body is-app-booting">
+
+<!-- ========================================================================= -->
+<!-- === 🧱 1. ПЕРЕКЛЮЧАТЕЛЬ ТЕМЫ === -->
+<!-- ========================================================================= -->
+
+<button id="theme-toggle-button" class="theme-toggle" type="button" title="Переключить тему">
+    <i data-lucide="moon"></i>
+</button>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 2. ФОРМА ВХОДА === -->
+<!-- ========================================================================= -->
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <div class="auth-logo">Ad Quercum</div>
+        <p class="auth-subtitle">Войдите, чтобы продолжить чтение</p>
+
+        <form id="login-form" class="auth-form" novalidate>
+            <div class="form-field">
+                <label class="form-label" for="email">Email</label>
+                <input id="email" class="form-input" type="email" name="user_email"
+                       placeholder="you@example.com" autocomplete="email" required>
+                <p id="email-error" class="form-error"></p>
+            </div>
+
+            <div class="form-field">
+                <label class="form-label" for="password">Пароль</label>
+                <input id="password" class="form-input" type="password" name="password"
+                       placeholder="Введите пароль" autocomplete="current-password" required>
+                <p id="password-error" class="form-error"></p>
+            </div>
+
+            <p id="form-error" class="form-error"></p>
+
+            <button id="submit-button" class="btn btn-primary btn-block btn-lg" type="submit">
+                <i data-lucide="log-in"></i>
+                Войти
+            </button>
+        </form>
+
+        <div class="auth-divider">или</div>
+
+        <div class="auth-footer">
+            Нет аккаунта? <a href="register.html">Зарегистрироваться</a>
+        </div>
+
+    </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 3. COOKIE-УВЕДОМЛЕНИЕ === -->
+<!-- ========================================================================= -->
+
+<section id="cookie-notice" class="cookie-notice" aria-label="Уведомление об использовании cookies" hidden>
+    <div class="cookie-notice-content">
+        <i data-lucide="cookie"></i>
+        <p class="cookie-notice-text">
+            На сайте используются cookies для авторизации<br>
+            и корректной работы сервиса.
+        </p>
+    </div>
+    <button id="cookie-notice-close" class="btn btn-primary btn-sm" type="button">
+        Понятно
+    </button>
+</section>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 4. СКРИПТЫ === -->
+<!-- ========================================================================= -->
+
+<script src="../assets/js/core/constants.js?v=release"></script>
+<script src="../assets/js/core/api_client.js?v=release"></script>
+<script src="../assets/js/core/page_registry.js?v=release"></script>
+<script src="../assets/js/core/router.js?v=release"></script>
+<script src="../assets/js/core/auth_guard.js?v=release"></script>
+<script src="../assets/js/core/notification.js?v=release"></script>
+<script src="../assets/js/core/utils.js?v=release"></script>
+<script src="../assets/js/core/theme_toggle.js?v=release"></script>
+<script src="../assets/js/services/auth_service.js?v=release"></script>
+<script src="../assets/js/pages/login.js?v=release"></script>
+<script>if (window.lucide) window.lucide.createIcons();</script>
+
+</body>
+</html>

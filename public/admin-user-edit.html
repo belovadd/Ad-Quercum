@@ -1,0 +1,294 @@
+<!--
+ * @file public/admin-user-edit.html
+ * 🌐 СТРАНИЦА: Редактирование пользователя админом — личные данные, роль, статус, опасная зона.
+ *
+ * @package AdQuercum
+ * @author dianaBELOVA
+ *
+ * НАЗНАЧЕНИЕ:
+ *   Даёт администратору отдельный экран редактирования пользователя: профиль,
+ *   роль, блокировка, аватар и удаление учётной записи.
+ *
+ * СТРУКТУРА:
+ *   1. НАВИГАЦИЯ
+ *   2. КОНТЕНТ
+ *   3. СКРИПТЫ
+ *
+ *   Адрес: `admin-user-edit.html?user_id=<id>`.
+ -->
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="">
+    <title>Редактирование пользователя — Ad Quercum</title>
+
+    <link rel="icon" href="../assets/images/favicon.ico?v=release" sizes="any">
+    <link rel="icon" href="../assets/images/favicon-512x512.png?v=release" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png?v=release">
+    <meta name="theme-color" content="#5B8C5A">
+
+    <link rel="stylesheet" href="../assets/fonts/fonts.css?v=release">
+    <link rel="stylesheet" href="../assets/css/global.css?v=release">
+    <link rel="stylesheet" href="../assets/css/components.css?v=release">
+    <link rel="stylesheet" href="../assets/css/domain.css?v=release">
+    <link rel="stylesheet" href="../assets/css/admin.css?v=release">
+    <link rel="stylesheet" href="../assets/css/layouts.css?v=release">
+
+    <script src="../assets/js/vendor/lucide.min.js?v=release"></script>
+</head>
+<body class="is-app-booting">
+
+<!-- ========================================================================= -->
+<!-- === 🧱 1. НАВИГАЦИЯ === -->
+<!-- ========================================================================= -->
+
+<div id="navigation"></div>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 2. КОНТЕНТ === -->
+<!-- ========================================================================= -->
+
+<main class="container admin-user-edit-page">
+
+    <nav class="breadcrumb">
+        <a href="admin.html">Админ-панель</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="admin-users.html">Пользователи</a>
+        <span class="breadcrumb-separator">/</span>
+        <span id="breadcrumb-user-name">Редактирование</span>
+    </nav>
+
+    <header class="page-header">
+        <h1 id="page-title" class="page-header-title">Редактирование пользователя</h1>
+    </header>
+
+    <div id="edit-container" class="edit-container">
+
+        <!-- ========================================================== -->
+        <!-- === 1. АВАТАР                                          === -->
+        <!-- ========================================================== -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2 class="section-title">
+                    <i data-lucide="image"></i>
+                    Аватар
+                </h2>
+            </header>
+            <div class="avatar-section">
+                <div id="avatar-preview" class="avatar-preview is-empty">
+                    <i data-lucide="user"></i>
+                </div>
+                <div class="avatar-actions">
+                    <button id="avatar-upload-button" class="btn btn-secondary btn-sm" type="button">
+                        <i data-lucide="upload"></i>
+                        Загрузить аватар
+                    </button>
+                    <button id="avatar-remove-button" class="btn btn-danger-ghost btn-sm is-hidden" type="button">
+                        <i data-lucide="trash-2"></i>
+                        Удалить аватар
+                    </button>
+                </div>
+                <input id="avatar-file-input" type="file" accept="image/*" class="is-hidden">
+            </div>
+        </section>
+
+        <!-- ========================================================== -->
+        <!-- === 2. ЛИЧНЫЕ ДАННЫЕ                                   === -->
+        <!-- ========================================================== -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2 class="section-title">
+                    <i data-lucide="contact"></i>
+                    Личные данные
+                </h2>
+            </header>
+
+            <form id="profile-form" class="form-grid-2" novalidate>
+                <div class="form-field">
+                    <label class="form-label" for="first-name-input">Имя</label>
+                    <input id="first-name-input" class="form-input" type="text"
+                           name="user_name_first" autocomplete="given-name">
+                    <p id="first-name-error" class="form-error"></p>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-label" for="last-name-input">Фамилия</label>
+                    <input id="last-name-input" class="form-input" type="text"
+                           name="user_name_last" autocomplete="family-name">
+                    <p id="last-name-error" class="form-error"></p>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-label" for="profile-identifier-input">Идентификатор</label>
+                    <div class="input-prefix-wrap">
+                        <span class="input-prefix">@</span>
+                        <input id="profile-identifier-input" class="form-input" type="text"
+                               name="user_profile_identifier">
+                    </div>
+                    <p class="form-hint">Уникальный handle для поиска и ссылок на профиль</p>
+                    <p id="profile-identifier-error" class="form-error"></p>
+                </div>
+
+                <div class="form-field">
+                    <label class="form-label" for="email-input">Email</label>
+                    <input id="email-input" class="form-input" type="email"
+                           name="user_email" autocomplete="email">
+                    <p id="email-error" class="form-error"></p>
+                </div>
+            </form>
+        </section>
+
+        <!-- ========================================================== -->
+        <!-- === 3. РОЛЬ И СТАТУС                                   === -->
+        <!-- ========================================================== -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2 class="section-title">
+                    <i data-lucide="shield"></i>
+                    Роль и статус
+                </h2>
+            </header>
+
+            <!-- Радио-карточки роли -->
+            <div class="form-field">
+                <label class="form-label">Роль</label>
+                <div class="role-options">
+                    <label class="role-option">
+                        <input type="radio" name="user_role" value="user">
+                        <span class="role-option-label">
+                            <i data-lucide="user"></i>
+                            Пользователь
+                        </span>
+                    </label>
+                    <label class="role-option">
+                        <input type="radio" name="user_role" value="moderator">
+                        <span class="role-option-label">
+                            <i data-lucide="shield-check"></i>
+                            Модератор
+                        </span>
+                    </label>
+                    <label class="role-option">
+                        <input type="radio" name="user_role" value="admin">
+                        <span class="role-option-label">
+                            <i data-lucide="crown"></i>
+                            Администратор
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Тоггл блокировки -->
+            <div class="toggle-row">
+                <div class="toggle-label">
+                    <span class="toggle-label-text">Статус аккаунта</span>
+                    <span id="status-indicator" class="status-indicator is-active">
+                        <span class="status-dot"></span>
+                        <span id="status-text">Активен</span>
+                    </span>
+                </div>
+                <label class="toggle-switch">
+                    <input id="status-toggle" type="checkbox" checked>
+                    <span class="toggle-track"></span>
+                </label>
+            </div>
+
+            <!-- Причина блокировки (показывается только в blocked-режиме) -->
+            <div id="block-reason-wrap" class="block-reason is-hidden">
+                <div class="form-field">
+                    <label class="form-label" for="block-reason-input">Причина блокировки</label>
+                    <textarea id="block-reason-input" class="form-input block-reason-input"
+                              rows="4" maxlength="500"
+                              placeholder="Укажите причину блокировки пользователя…"></textarea>
+                    <p class="form-hint">До 500 символов. Видно только администраторам.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================================== -->
+        <!-- === 4. АДМИНИСТРИРОВАНИЕ                               === -->
+        <!-- ========================================================== -->
+        <section class="content-section">
+            <header class="section-header">
+                <h2 class="section-title">
+                    <i data-lucide="settings"></i>
+                    Администрирование
+                </h2>
+            </header>
+
+            <div class="toggle-row">
+                <div class="toggle-label">
+                    <span class="toggle-label-text">Принудительно скрыть профиль</span>
+                    <span class="form-hint">Публичная страница пользователя станет недоступна другим читателям</span>
+                </div>
+                <label class="toggle-switch">
+                    <input id="profile-hidden-toggle" type="checkbox">
+                    <span class="toggle-track"></span>
+                </label>
+            </div>
+        </section>
+
+        <!-- ========================================================== -->
+        <!-- === 5. ОПАСНАЯ ЗОНА                                    === -->
+        <!-- ========================================================== -->
+        <section class="danger-zone">
+            <header class="danger-zone-header">
+                <h2 class="danger-zone-title">
+                    <i data-lucide="alert-triangle"></i>
+                    Опасная зона
+                </h2>
+            </header>
+            <div class="danger-zone-body">
+                <p class="danger-zone-text">
+                    Удаление пользователя необратимо: будут удалены полки, оценки,
+                    публикации, сессии и заметки. Действие невозможно отменить.
+                </p>
+                <button id="delete-user-button" class="btn btn-danger" type="button">
+                    <i data-lucide="trash-2"></i>
+                    Удалить пользователя
+                </button>
+            </div>
+        </section>
+
+        <!-- ========================================================== -->
+        <!-- === 6. ПАНЕЛЬ ДЕЙСТВИЙ                                 === -->
+        <!-- ========================================================== -->
+        <div class="action-bar">
+            <a class="btn btn-secondary" href="admin-users.html">
+                <i data-lucide="arrow-left"></i>
+                Отмена
+            </a>
+            <button id="save-button" class="btn btn-primary" type="button">
+                <i data-lucide="save"></i>
+                Сохранить изменения
+            </button>
+        </div>
+
+    </div>
+
+</main>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 3. СКРИПТЫ === -->
+<!-- ========================================================================= -->
+
+<script src="../assets/js/core/constants.js?v=release"></script>
+<script src="../assets/js/core/api_client.js?v=release"></script>
+<script src="../assets/js/core/page_registry.js?v=release"></script>
+<script src="../assets/js/core/router.js?v=release"></script>
+<script src="../assets/js/core/auth_guard.js?v=release"></script>
+<script src="../assets/js/core/notification.js?v=release"></script>
+<script src="../assets/js/core/app_confirm.js?v=release"></script>
+<script src="../assets/js/core/utils.js?v=release"></script>
+
+<script src="../assets/js/services/auth_service.js?v=release"></script>
+<script src="../assets/js/services/admin_service.js?v=release"></script>
+
+<script src="../assets/js/services/social_service.js?v=release"></script>
+<script src="../assets/js/components/navigation_component.js?v=release"></script>
+
+<script src="../assets/js/pages/admin_user_edit.js?v=release"></script>
+
+</body>
+</html>

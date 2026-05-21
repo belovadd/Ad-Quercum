@@ -1,0 +1,220 @@
+<!--
+ * @file public/timer.html
+ * 🌐 СТРАНИЦА: Таймер чтения — Pomodoro, привязка книги, радио для фокуса, заметки.
+ *
+ * @package AdQuercum
+ * @author dianaBELOVA
+ *
+ * НАЗНАЧЕНИЕ:
+ *   Предоставляет рабочий экран чтения: Pomodoro-таймер, выбор книги,
+ *   растение прогресса, радио для фокуса, заметки и историю сессий.
+ *
+ * СТРУКТУРА:
+ *   1. НАВИГАЦИЯ
+ *   2. КОНТЕНТ
+ *   3. СКРИПТЫ
+ -->
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="">
+    <title>Таймер — Ad Quercum</title>
+
+    <link rel="icon" href="../assets/images/favicon.ico?v=release" sizes="any">
+    <link rel="icon" href="../assets/images/favicon-512x512.png?v=release" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png?v=release">
+    <meta name="theme-color" content="#5B8C5A">
+
+    <link rel="stylesheet" href="../assets/fonts/fonts.css?v=release">
+    <link rel="stylesheet" href="../assets/css/global.css?v=release">
+    <link rel="stylesheet" href="../assets/css/components.css?v=release">
+    <link rel="stylesheet" href="../assets/css/domain.css?v=release">
+    <link rel="stylesheet" href="../assets/css/layouts.css?v=release">
+
+    <script src="../assets/js/vendor/lucide.min.js?v=release"></script>
+</head>
+<body class="is-app-booting">
+
+<!-- ========================================================================= -->
+<!-- === 🧱 1. НАВИГАЦИЯ === -->
+<!-- ========================================================================= -->
+
+<div id="navigation"></div>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 2. КОНТЕНТ === -->
+<!-- ========================================================================= -->
+
+<main class="container timer-page">
+
+    <nav class="breadcrumb">
+        <a href="index.html">Главная</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Таймер чтения</span>
+    </nav>
+
+    <h1 class="statistics-title">Таймер чтения</h1>
+
+    <div class="timer-layout">
+
+        <!-- ============================================================ -->
+        <!-- === Основная колонка: таймер + книга + заметки           === -->
+        <!-- ============================================================ -->
+        <div class="timer-main">
+
+            <div id="timer-container" class="timer-section"></div>
+
+            <section id="pomodoro-info-section" class="is-hidden">
+                <div id="pomodoro-info" class="pomodoro-section"></div>
+            </section>
+
+            <section id="book-binding-section" class="sidebar-card">
+                <header class="sidebar-card-title">
+                    <i data-lucide="book-open"></i>
+                    Привязка книги
+                </header>
+                <div id="book-selector-section">
+                    <div id="book-binding-search" class="book-binding-search"></div>
+                </div>
+                <div id="book-info-section" class="is-hidden">
+                    <p id="book-info-text"></p>
+                </div>
+            </section>
+
+            <section id="settings-box" class="sidebar-card">
+                <header class="sidebar-card-title">
+                    <i data-lucide="settings"></i>
+                    Настройки таймера
+                </header>
+                <div class="settings-grid">
+                    <div class="settings-row">
+                        <label class="settings-label" for="setting-work-duration">Длительность сессии</label>
+                        <select id="setting-work-duration" class="form-input form-select"></select>
+                    </div>
+                    <div class="settings-row">
+                        <label class="settings-label" for="setting-short-break">Перерыв</label>
+                        <select id="setting-short-break" class="form-input form-select"></select>
+                    </div>
+                    <div class="settings-row settings-row-toggle">
+                        <label class="form-toggle">
+                            <input id="setting-sound-enabled" type="checkbox" checked hidden>
+                            <span class="form-toggle-track"><span class="form-toggle-dot"></span></span>
+                            <span class="form-toggle-label">Звук уведомления</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="settings-note">
+                    <i data-lucide="info"></i>
+                    Настройки скрыты во время активной сессии
+                </div>
+            </section>
+
+            <!-- Заметки к книге -->
+            <section id="notes-section" class="notes-section is-hidden">
+                <header class="notes-header">
+                    <div class="notes-title-wrap">
+                        <h2 class="notes-title">Заметки</h2>
+                        <span id="notes-count" class="notes-count">0</span>
+                    </div>
+                    <div id="notes-filters" class="notes-filters" aria-label="Фильтр заметок">
+                        <button class="notes-filter is-active" type="button" data-note-filter="all">Все</button>
+                        <button class="notes-filter" type="button" data-note-filter="quote">Цитаты</button>
+                        <button class="notes-filter" type="button" data-note-filter="thought">Рассуждения</button>
+                        <button class="notes-filter" type="button" data-note-filter="question">Вопросы</button>
+                        <button class="notes-filter" type="button" data-note-filter="idea">Идеи</button>
+                    </div>
+                </header>
+                <div id="notes-list" class="notes-list"></div>
+            </section>
+
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- === Сайдбар: растение, радио, настройки                  === -->
+        <!-- ============================================================ -->
+        <aside class="timer-sidebar">
+
+            <section class="sidebar-card">
+                <header class="sidebar-card-title">
+                    Ваш спутник
+                </header>
+                <div id="plant-mini" class="plant-mini-section"></div>
+            </section>
+
+            <section class="sidebar-card">
+                <header class="sidebar-card-title">
+                    Радио для фокуса
+                </header>
+                <div class="radio-section">
+                    <div class="radio-player">
+                        <div class="radio-info">
+                            <div id="radio-status-text" class="radio-status">Выбранное радио</div>
+                            <div id="radio-station-name" class="radio-track">Radio Mast</div>
+                        </div>
+                    </div>
+                    <div class="radio-volume">
+                        <button id="radio-volume-down-button" class="radio-volume-btn" type="button"
+                                aria-label="Сделать радио тише" title="Тише">
+                            <i data-lucide="volume-1"></i>
+                        </button>
+                        <input id="radio-volume-input" class="radio-volume-input" type="range"
+                               aria-label="Громкость радио">
+                        <button id="radio-volume-up-button" class="radio-volume-btn" type="button"
+                                aria-label="Сделать радио громче" title="Громче">
+                            <i data-lucide="volume-2"></i>
+                        </button>
+                    </div>
+                    <div class="radio-nav">
+                        <button id="radio-prev-button" class="radio-nav-btn" type="button" aria-label="Назад">
+                            <i data-lucide="skip-back"></i>
+                        </button>
+                        <button id="radio-toggle-button" class="radio-play-btn" type="button" aria-label="Включить радио">
+                            <i data-lucide="play"></i>
+                        </button>
+                        <button id="radio-next-button" class="radio-nav-btn" type="button" aria-label="Вперёд">
+                            <i data-lucide="skip-forward"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </aside>
+
+    </div>
+
+</main>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 3. СКРИПТЫ === -->
+<!-- ========================================================================= -->
+
+<script src="../assets/js/core/constants.js?v=release"></script>
+<script src="../assets/js/core/api_client.js?v=release"></script>
+<script src="../assets/js/core/page_registry.js?v=release"></script>
+<script src="../assets/js/core/router.js?v=release"></script>
+<script src="../assets/js/core/auth_guard.js?v=release"></script>
+<script src="../assets/js/core/notification.js?v=release"></script>
+<script src="../assets/js/core/app_confirm.js?v=release"></script>
+<script src="../assets/js/core/utils.js?v=release"></script>
+
+<script src="../assets/js/services/auth_service.js?v=release"></script>
+<script src="../assets/js/services/timer_service.js?v=release"></script>
+<script src="../assets/js/services/book_service.js?v=release"></script>
+<script src="../assets/js/services/library_service.js?v=release"></script>
+
+<script src="../assets/js/services/social_service.js?v=release"></script>
+<script src="../assets/js/components/navigation_component.js?v=release"></script>
+<script src="../assets/js/components/timer_display_component.js?v=release"></script>
+<script src="../assets/js/components/plant_display_component.js?v=release"></script>
+<script src="../assets/js/components/timer_book_search_component.js?v=release"></script>
+<script src="../assets/js/components/note_card_component.js?v=release"></script>
+<script src="../assets/js/components/empty_state_component.js?v=release"></script>
+
+<script src="../assets/js/pages/timer_radio_handlers.js?v=release"></script>
+<script src="../assets/js/pages/timer.js?v=release"></script>
+<script src="../assets/js/pages/timer_notes_handlers.js?v=release"></script>
+
+</body>
+</html>

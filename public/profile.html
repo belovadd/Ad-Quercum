@@ -1,0 +1,292 @@
+<!--
+ * @file public/profile.html
+ * 🌐 СТРАНИЦА: Профиль — карточка, приватность, растение, статистика, публикации.
+ *
+ * @package AdQuercum
+ * @author dianaBELOVA
+ *
+ * НАЗНАЧЕНИЕ:
+ *   Показывает собственный или публичный профиль пользователя: данные, растение,
+ *   коллекции, статистику чтения и публикации.
+ *
+ * СТРУКТУРА:
+ *   1. НАВИГАЦИЯ
+ *   2. КОНТЕНТ
+ *   3. СКРИПТЫ
+ *
+ *   Адрес: `profile.html` или `profile.html?user_id=<id>`.
+ -->
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="">
+    <title>Профиль — Ad Quercum</title>
+
+    <link rel="icon" href="../assets/images/favicon.ico?v=release" sizes="any">
+    <link rel="icon" href="../assets/images/favicon-512x512.png?v=release" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png?v=release">
+    <meta name="theme-color" content="#5B8C5A">
+
+    <link rel="stylesheet" href="../assets/fonts/fonts.css?v=release">
+    <link rel="stylesheet" href="../assets/css/global.css?v=release">
+    <link rel="stylesheet" href="../assets/css/components.css?v=release">
+    <link rel="stylesheet" href="../assets/css/domain.css?v=release">
+    <link rel="stylesheet" href="../assets/css/layouts.css?v=release">
+
+    <script src="../assets/js/vendor/lucide.min.js?v=release"></script>
+</head>
+<body class="is-app-booting">
+
+<!-- ========================================================================= -->
+<!-- === 🧱 1. НАВИГАЦИЯ === -->
+<!-- ========================================================================= -->
+
+<div id="navigation"></div>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 2. КОНТЕНТ === -->
+<!-- ========================================================================= -->
+
+<main class="container profile-page">
+
+    <nav class="breadcrumb">
+        <a href="index.html">Главная</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Профиль</span>
+    </nav>
+
+    <h1 id="profile-page-title" class="statistics-title">Профиль</h1>
+
+    <div class="profile-layout">
+
+        <!-- ============================================================ -->
+        <!-- === Сайдбар: profile-card + privacy-card + plant-mini    === -->
+        <!-- ============================================================ -->
+        <aside class="profile-sidebar">
+
+            <!-- Карточка профиля -->
+            <section id="profile-card" class="profile-card">
+                <p>Загрузка…</p>
+            </section>
+
+            <!-- Настройки приватности (только для своего профиля) -->
+            <section id="privacy-settings" class="privacy-card is-hidden">
+                <div class="privacy-card-title">
+                    <i data-lucide="shield"></i>
+                    Приватность
+                </div>
+
+                <div class="privacy-item">
+                    <label class="form-toggle">
+                        <input id="toggle-stats-hidden" type="checkbox" hidden>
+                        <span class="form-toggle-track"><span class="form-toggle-dot"></span></span>
+                        <span class="form-toggle-label">Скрыть статистику</span>
+                    </label>
+                </div>
+
+                <div class="privacy-item">
+                    <label class="form-toggle">
+                        <input id="toggle-library-hidden" type="checkbox" hidden>
+                        <span class="form-toggle-track"><span class="form-toggle-dot"></span></span>
+                        <span class="form-toggle-label">Скрыть библиотеку</span>
+                    </label>
+                </div>
+
+                <div class="privacy-item">
+                    <label class="form-toggle">
+                        <input id="toggle-collections-hidden" type="checkbox" hidden>
+                        <span class="form-toggle-track"><span class="form-toggle-dot"></span></span>
+                        <span class="form-toggle-label">Скрыть коллекции</span>
+                    </label>
+                </div>
+
+                <div class="privacy-item">
+                    <label class="form-toggle">
+                        <input id="toggle-plant-hidden" type="checkbox" hidden>
+                        <span class="form-toggle-track"><span class="form-toggle-dot"></span></span>
+                        <span class="form-toggle-label">Скрыть растение</span>
+                    </label>
+                </div>
+
+                <button id="save-privacy-button" class="btn btn-primary btn-block" type="button">
+                    Сохранить
+                </button>
+            </section>
+
+            <!-- Форма редактирования профиля -->
+            <div id="edit-profile-modal" class="modal-backdrop is-hidden">
+                <section id="edit-profile-section" class="modal-card profile-edit-modal"
+                         role="dialog" aria-modal="true" aria-labelledby="edit-profile-title">
+                    <header class="modal-header">
+                        <h3 id="edit-profile-title" class="modal-title">Редактирование профиля</h3>
+                        <button id="close-edit-modal-button" class="btn btn-ghost btn-icon"
+                                type="button" aria-label="Закрыть окно">
+                            <i data-lucide="x"></i>
+                        </button>
+                    </header>
+
+                    <div class="modal-body profile-edit-form">
+                        <div class="form-field">
+                            <label class="form-label" for="edit-first-name">Имя</label>
+                            <input id="edit-first-name" class="form-input" type="text" placeholder="Имя">
+                        </div>
+                        <div class="form-field">
+                            <label class="form-label" for="edit-last-name">Фамилия</label>
+                            <input id="edit-last-name" class="form-input" type="text" placeholder="Фамилия">
+                        </div>
+                        <div class="form-field">
+                            <label class="form-label" for="edit-identifier">Идентификатор</label>
+                            <input id="edit-identifier" class="form-input" type="text" placeholder="@identifier">
+                        </div>
+                        <div class="form-field">
+                            <label class="form-label" for="edit-location">Город</label>
+                            <input id="edit-location" class="form-input" type="text" maxlength="100" placeholder="Город">
+                        </div>
+                        <div class="form-field">
+                            <label class="form-label" for="edit-status">Статус</label>
+                            <textarea id="edit-status" class="form-input form-textarea profile-edit-status"
+                                      maxlength="255" rows="2" placeholder="Что читаете сейчас"></textarea>
+                        </div>
+                        <div class="form-field profile-edit-field-wide">
+                            <label class="form-label" for="edit-bio">О себе</label>
+                            <textarea id="edit-bio" class="form-input form-textarea profile-edit-bio"
+                                      maxlength="1000" rows="6"></textarea>
+                        </div>
+                        <div class="form-field profile-edit-field-wide">
+                            <span class="form-label">Аватар</span>
+                            <div class="club-file-upload">
+                                <input id="edit-avatar" class="is-hidden" type="file"
+                                       accept="image/jpeg,image/png,image/webp">
+                                <button id="edit-avatar-choose-button" class="btn btn-outlined btn-sm" type="button">
+                                    <i data-lucide="upload"></i>
+                                    Выбрать файл
+                                </button>
+                                <span id="edit-avatar-filename" class="club-file-name">Файл не выбран</span>
+                            </div>
+                        </div>
+                        <div class="profile-password-section profile-edit-field-wide">
+                            <div class="profile-password-grid">
+                                <div class="form-field">
+                                    <label class="form-label" for="edit-current-password">Текущий пароль</label>
+                                    <input id="edit-current-password" class="form-input" type="password"
+                                           autocomplete="current-password">
+                                    <p id="edit-current-password-error" class="form-error"></p>
+                                </div>
+                                <div class="form-field">
+                                    <label class="form-label" for="edit-new-password">Новый пароль</label>
+                                    <input id="edit-new-password" class="form-input" type="password"
+                                           autocomplete="new-password">
+                                    <p id="edit-new-password-error" class="form-error"></p>
+                                </div>
+                                <div class="form-field">
+                                    <label class="form-label" for="edit-confirm-password">Повтор пароля</label>
+                                    <input id="edit-confirm-password" class="form-input" type="password"
+                                           autocomplete="new-password">
+                                    <p id="edit-confirm-password-error" class="form-error"></p>
+                                </div>
+                            </div>
+                            <p class="form-hint">Оставьте поля пустыми, если пароль менять не нужно.</p>
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button id="cancel-edit-button" class="btn btn-ghost" type="button">Отмена</button>
+                        <button id="save-profile-button" class="btn btn-primary" type="button">Сохранить</button>
+                    </div>
+                </section>
+            </div>
+
+        </aside>
+
+        <!-- ============================================================ -->
+        <!-- === Основная колонка: растение, статистика, публикации     === -->
+        <!-- ============================================================ -->
+        <div class="profile-main">
+
+            <section class="content-section">
+                <header class="section-header">
+                    <div id="profile-plant-title" class="section-title">Ваш спутник</div>
+                    <a id="profile-plant-link" class="btn btn-ghost btn-sm" href="plant.html">Подробнее</a>
+                </header>
+                <div id="profile-plant" class="plant-mini-section"></div>
+            </section>
+
+            <section class="content-section">
+                <header class="section-header">
+                    <div class="section-title">Статистика чтения</div>
+                </header>
+                <div id="profile-stats"></div>
+            </section>
+
+            <section class="content-section">
+                <header class="section-header">
+                    <div class="section-title">
+                        Публикации
+                        <span id="publications-count" class="section-card-count"></span>
+                    </div>
+                </header>
+
+                <div id="publication-form-section" class="pub-form is-hidden">
+                    <textarea id="publication-text" class="form-input form-textarea pub-form-textarea"
+                              placeholder="Что нового в вашем чтении?…" rows="3"></textarea>
+
+                    <div class="pub-form-footer">
+                        <div id="publication-book-search" class="pub-form-book-search"></div>
+                        <button id="publish-button" class="btn btn-primary" type="button">
+                            <i data-lucide="send"></i>
+                            Опубликовать
+                        </button>
+                    </div>
+                </div>
+
+                <div id="profile-publications" class="publication-list"></div>
+            </section>
+            <div id="publications-pagination" class="profile-publications-pagination"></div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 3. СКРИПТЫ === -->
+<!-- ========================================================================= -->
+
+<!-- Core -->
+<script src="../assets/js/core/constants.js?v=release"></script>
+<script src="../assets/js/core/api_client.js?v=release"></script>
+<script src="../assets/js/core/page_registry.js?v=release"></script>
+<script src="../assets/js/core/router.js?v=release"></script>
+<script src="../assets/js/core/auth_guard.js?v=release"></script>
+<script src="../assets/js/core/notification.js?v=release"></script>
+<script src="../assets/js/core/utils.js?v=release"></script>
+<script src="../assets/js/core/app_confirm.js?v=release"></script>
+
+<!-- Services -->
+<script src="../assets/js/services/auth_service.js?v=release"></script>
+<script src="../assets/js/services/timer_service.js?v=release"></script>
+<script src="../assets/js/services/library_service.js?v=release"></script>
+<script src="../assets/js/services/statistics_service.js?v=release"></script>
+<script src="../assets/js/services/social_service.js?v=release"></script>
+<script src="../assets/js/services/book_service.js?v=release"></script>
+
+<!-- Components -->
+<script src="../assets/js/components/navigation_component.js?v=release"></script>
+<script src="../assets/js/components/empty_state_component.js?v=release"></script>
+<script src="../assets/js/components/pagination_component.js?v=release"></script>
+<script src="../assets/js/components/profile_card_component.js?v=release"></script>
+<script src="../assets/js/components/form_toggle_component.js?v=release"></script>
+<script src="../assets/js/components/plant_display_component.js?v=release"></script>
+<script src="../assets/js/components/timer_book_search_component.js?v=release"></script>
+<script src="../assets/js/components/book_card_component.js?v=release"></script>
+<script src="../assets/js/components/publication_card_component.js?v=release"></script>
+
+<!-- Page -->
+<script src="../assets/js/pages/profile.js?v=release"></script>
+<script src="../assets/js/pages/profile_handlers.js?v=release"></script>
+
+</body>
+</html>

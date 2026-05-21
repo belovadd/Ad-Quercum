@@ -1,0 +1,101 @@
+<!--
+ * @file public/index.html
+ * 🌐 СТРАНИЦА: Главная — редирект на библиотеку или логин.
+ *
+ * @package AdQuercum
+ * @author dianaBELOVA
+ *
+ * НАЗНАЧЕНИЕ:
+ *   Главная — редирект на библиотеку или логин.
+ *
+ * СТРУКТУРА:
+ *   1. СТАТУС ЗАГРУЗКИ
+ *   2. РЕДИРЕКТ
+ -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="">
+    <title>Ad Quercum</title>
+
+    <link rel="icon" href="../assets/images/favicon.ico?v=release" sizes="any">
+    <link rel="icon" href="../assets/images/favicon-512x512.png?v=release" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png?v=release">
+    <meta name="theme-color" content="#5B8C5A">
+</head>
+<body>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 1. СТАТУС ЗАГРУЗКИ === -->
+<!-- ========================================================================= -->
+
+<p>Загрузка...</p>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 2. РЕДИРЕКТ === -->
+<!-- ========================================================================= -->
+
+<script>
+    /**
+     * 🟨 Определяет базовый путь приложения для корня, public/index.html и поддиректорий.
+     *
+     * @returns {string} Базовый путь приложения.
+     */
+    function resolveBasePath() {
+        const path = window.location.pathname;
+        const marker = 'public/index.html';
+        const idx = path.indexOf(marker);
+
+        if (idx !== -1) {
+            return path.substring(0, idx);
+        }
+
+        return path.endsWith('/') ? path : path + '/';
+    }
+
+    /**
+     * 🟨 Загружает JS-файл от вычисленного базового пути.
+     *
+     * @param {string} src Адрес скрипта.
+     * @returns {Promise<void>} Promise загрузки.
+     */
+    function loadScript(src) {
+        return new Promise(function (resolve, reject) {
+            const script = document.createElement('script');
+            script.src = src;
+            script.onload = function () { resolve(); };
+            script.onerror = function () { reject(new Error('Не удалось загрузить ' + src)); };
+            document.body.appendChild(script);
+        });
+    }
+
+    /**
+     * 🟨 Загружает сервисный слой, проверяет сессию и перенаправляет пользователя.
+     *
+     * @returns {Promise<void>} Ничего не возвращает.
+     */
+    async function redirectBySession() {
+        const base = resolveBasePath();
+
+        try {
+            await loadScript(base + 'assets/js/core/constants.js?v=release');
+            await loadScript(base + 'assets/js/core/api_client.js?v=release');
+            await loadScript(base + 'assets/js/services/auth_service.js?v=release');
+
+            const session = await AuthService.checkSession();
+            if (session && session.is_authenticated) {
+                window.location.href = PAGE_URL.LIBRARY;
+            } else {
+                window.location.href = PAGE_URL.LOGIN;
+            }
+        } catch (e) {
+            window.location.href = base + 'public/login.html';
+        }
+    }
+
+    redirectBySession();
+</script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+<!--
+ * @file public/admin-moderation.html
+ * 🌐 СТРАНИЦА: Модерация — две вкладки (произведения / издания) с очередью.
+ *
+ * @package AdQuercum
+ * @author dianaBELOVA
+ *
+ * НАЗНАЧЕНИЕ:
+ *   Модерация — две вкладки (произведения / издания) с очередью.
+ *
+ * СТРУКТУРА:
+ *   1. НАВИГАЦИЯ
+ *   2. КОНТЕНТ
+ *   3. СКРИПТЫ
+ -->
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="">
+    <title>Модерация книг — Ad Quercum</title>
+
+    <link rel="icon" href="../assets/images/favicon.ico?v=release" sizes="any">
+    <link rel="icon" href="../assets/images/favicon-512x512.png?v=release" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png?v=release">
+    <meta name="theme-color" content="#5B8C5A">
+
+    <link rel="stylesheet" href="../assets/fonts/fonts.css?v=release">
+    <link rel="stylesheet" href="../assets/css/global.css?v=release">
+    <link rel="stylesheet" href="../assets/css/components.css?v=release">
+    <link rel="stylesheet" href="../assets/css/domain.css?v=release">
+    <link rel="stylesheet" href="../assets/css/layouts.css?v=release">
+
+    <script src="../assets/js/vendor/lucide.min.js?v=release"></script>
+</head>
+<body class="is-app-booting">
+
+<!-- ========================================================================= -->
+<!-- === 🧱 1. НАВИГАЦИЯ === -->
+<!-- ========================================================================= -->
+
+<div id="navigation"></div>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 2. КОНТЕНТ === -->
+<!-- ========================================================================= -->
+
+<main class="container admin-moderation-page admin-page">
+
+    <nav class="breadcrumb">
+        <a href="index.html">Главная</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="admin.html">Админ-панель</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Модерация</span>
+    </nav>
+
+    <header class="page-header">
+        <h1 class="page-header-title">Модерация книг</h1>
+    </header>
+
+    <!-- Внутренний переключатель модерации (data-tab="books"|"editions"|"duplicates") -->
+    <div id="moderation-mode-filter" class="library-filters moderation-tabs moderation-mode-filter" aria-label="Раздел модерации">
+        <button class="filter-chip is-active" type="button" data-tab="books" aria-pressed="true">
+            <i data-lucide="book-open"></i>
+            <span>Произведения</span>
+        </button>
+        <button class="filter-chip" type="button" data-tab="editions" aria-pressed="false">
+            <i data-lucide="layers"></i>
+            <span>Издания</span>
+        </button>
+        <button class="filter-chip" type="button" data-tab="duplicates" aria-pressed="false">
+            <i data-lucide="copy"></i>
+            <span>Возможные дубликаты</span>
+        </button>
+    </div>
+
+    <!-- Список заявок (рендерит pages/admin_moderation.js через pending-card-компоненты) -->
+    <section id="moderation-list" class="moderation-list pending-list"></section>
+
+    <!-- Пагинация -->
+    <nav id="moderation-pagination" class="pagination" aria-label="Пагинация"></nav>
+
+</main>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 3. СКРИПТЫ === -->
+<!-- ========================================================================= -->
+
+<!-- Core -->
+<script src="../assets/js/core/constants.js?v=release"></script>
+<script src="../assets/js/core/api_client.js?v=release"></script>
+<script src="../assets/js/core/page_registry.js?v=release"></script>
+<script src="../assets/js/core/router.js?v=release"></script>
+<script src="../assets/js/core/auth_guard.js?v=release"></script>
+<script src="../assets/js/core/notification.js?v=release"></script>
+<script src="../assets/js/core/app_confirm.js?v=release"></script>
+<script src="../assets/js/core/utils.js?v=release"></script>
+
+<!-- Services -->
+<script src="../assets/js/services/auth_service.js?v=release"></script>
+<script src="../assets/js/services/admin_service.js?v=release"></script>
+<script src="../assets/js/services/book_service.js?v=release"></script>
+
+<!-- Components -->
+<script src="../assets/js/services/social_service.js?v=release"></script>
+<script src="../assets/js/components/navigation_component.js?v=release"></script>
+<script src="../assets/js/components/empty_state_component.js?v=release"></script>
+<script src="../assets/js/components/pagination_component.js?v=release"></script>
+<script src="../assets/js/components/pending_edition_card_component.js?v=release"></script>
+
+<!-- Page -->
+<script src="../assets/js/pages/admin_moderation.js?v=release"></script>
+
+</body>
+</html>

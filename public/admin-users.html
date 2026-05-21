@@ -1,0 +1,125 @@
+<!--
+ * @file public/admin-users.html
+ * 🌐 СТРАНИЦА: Управление пользователями — поиск, фильтры, таблица, ссылки на edit.
+ *
+ * @package AdQuercum
+ * @author dianaBELOVA
+ *
+ * НАЗНАЧЕНИЕ:
+ *   Управление пользователями — поиск, фильтры, таблица, ссылки на edit.
+ *
+ * СТРУКТУРА:
+ *   1. НАВИГАЦИЯ
+ *   2. КОНТЕНТ
+ *   3. СКРИПТЫ
+ -->
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="">
+    <title>Пользователи — Ad Quercum</title>
+
+    <link rel="icon" href="../assets/images/favicon.ico?v=release" sizes="any">
+    <link rel="icon" href="../assets/images/favicon-512x512.png?v=release" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png?v=release">
+    <meta name="theme-color" content="#5B8C5A">
+
+    <link rel="stylesheet" href="../assets/fonts/fonts.css?v=release">
+    <link rel="stylesheet" href="../assets/css/global.css?v=release">
+    <link rel="stylesheet" href="../assets/css/components.css?v=release">
+    <link rel="stylesheet" href="../assets/css/domain.css?v=release">
+    <link rel="stylesheet" href="../assets/css/admin.css?v=release">
+    <link rel="stylesheet" href="../assets/css/layouts.css?v=release">
+
+    <script src="../assets/js/vendor/lucide.min.js?v=release"></script>
+</head>
+<body class="is-app-booting">
+
+<!-- ========================================================================= -->
+<!-- === 🧱 1. НАВИГАЦИЯ === -->
+<!-- ========================================================================= -->
+
+<div id="navigation"></div>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 2. КОНТЕНТ === -->
+<!-- ========================================================================= -->
+
+<main class="container admin-users-page">
+
+    <nav class="breadcrumb">
+        <a href="index.html">Главная</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="admin.html">Админ-панель</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Пользователи</span>
+    </nav>
+
+    <header class="page-header">
+        <h1 class="page-header-title">Управление пользователями</h1>
+    </header>
+
+    <!-- Фильтры -->
+    <section class="filters-bar admin-users-filters">
+        <div class="search-input-wrap">
+            <i data-lucide="search"></i>
+            <input id="search-input" class="form-input" type="text"
+                   placeholder="Имя, email, идентификатор…">
+        </div>
+        <select id="filter-role" class="filter-select">
+            <option value="">Все роли</option>
+            <option value="user">Пользователь</option>
+            <option value="moderator">Модератор</option>
+            <option value="admin">Администратор</option>
+        </select>
+        <select id="filter-blocked" class="filter-select">
+            <option value="">Все статусы</option>
+            <option value="0">Активные</option>
+            <option value="1">Заблокированные</option>
+        </select>
+    </section>
+
+    <!-- Таблица -->
+    <section class="content-section">
+        <div class="section-title">
+            <span>Пользователи</span>
+            <span id="admin-users-count" class="section-count">Найдено 0</span>
+        </div>
+
+        <div id="users-table-container" class="admin-users-table">
+            <p>Загрузка…</p>
+        </div>
+    </section>
+
+    <nav id="users-pagination" class="pagination admin-users-pagination" aria-label="Пагинация"></nav>
+
+</main>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 3. СКРИПТЫ === -->
+<!-- ========================================================================= -->
+
+<script src="../assets/js/core/constants.js?v=release"></script>
+<script src="../assets/js/core/api_client.js?v=release"></script>
+<script src="../assets/js/core/page_registry.js?v=release"></script>
+<script src="../assets/js/core/router.js?v=release"></script>
+<script src="../assets/js/core/auth_guard.js?v=release"></script>
+<script src="../assets/js/core/notification.js?v=release"></script>
+<script src="../assets/js/core/app_confirm.js?v=release"></script>
+<script src="../assets/js/core/utils.js?v=release"></script>
+
+<script src="../assets/js/services/auth_service.js?v=release"></script>
+<script src="../assets/js/services/admin_service.js?v=release"></script>
+
+<script src="../assets/js/services/social_service.js?v=release"></script>
+<script src="../assets/js/components/navigation_component.js?v=release"></script>
+<script src="../assets/js/components/empty_state_component.js?v=release"></script>
+<script src="../assets/js/components/pagination_component.js?v=release"></script>
+<script src="../assets/js/components/user_cell_component.js?v=release"></script>
+
+<script src="../assets/js/pages/admin_users.js?v=release"></script>
+
+</body>
+</html>

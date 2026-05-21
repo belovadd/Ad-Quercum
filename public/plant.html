@@ -1,0 +1,105 @@
+<!--
+ * @file public/plant.html
+ * 🌐 СТРАНИЦА: Растение — отображение роста, статистика, стадии, история.
+ *
+ * @package AdQuercum
+ * @author dianaBELOVA
+ *
+ * НАЗНАЧЕНИЕ:
+ *   Растение — отображение роста, статистика, стадии, история.
+ *
+ * СТРУКТУРА:
+ *   1. НАВИГАЦИЯ
+ *   2. КОНТЕНТ
+ *   3. СКРИПТЫ
+ -->
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="">
+    <title>Моё растение — Ad Quercum</title>
+
+    <link rel="icon" href="../assets/images/favicon.ico?v=release" sizes="any">
+    <link rel="icon" href="../assets/images/favicon-512x512.png?v=release" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png?v=release">
+    <meta name="theme-color" content="#5B8C5A">
+
+    <link rel="stylesheet" href="../assets/fonts/fonts.css?v=release">
+    <link rel="stylesheet" href="../assets/css/global.css?v=release">
+    <link rel="stylesheet" href="../assets/css/components.css?v=release">
+    <link rel="stylesheet" href="../assets/css/domain.css?v=release">
+    <link rel="stylesheet" href="../assets/css/layouts.css?v=release">
+
+    <script src="../assets/js/vendor/lucide.min.js?v=release"></script>
+</head>
+<body class="is-app-booting">
+
+<!-- ========================================================================= -->
+<!-- === 🧱 1. НАВИГАЦИЯ === -->
+<!-- ========================================================================= -->
+
+<div id="navigation"></div>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 2. КОНТЕНТ === -->
+<!-- ========================================================================= -->
+
+<main class="container plant-page">
+
+    <nav class="breadcrumb">
+        <a href="index.html">Главная</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Моё растение</span>
+    </nav>
+
+    <h1 class="statistics-title">Моё растение</h1>
+
+    <!-- Hero: иконка + имя + XP-бар (рендер plant_display_component) -->
+    <div id="plant-display" class="plant-display-section"></div>
+
+    <!-- Статистика роста (4 карточки) -->
+    <section class="content-section">
+        <div class="section-title">Статистика роста</div>
+        <div id="plant-stats" class="plant-stats-grid"></div>
+    </section>
+
+    <!-- 6 стадий роста -->
+    <section class="content-section">
+        <div class="section-title">Стадии роста</div>
+        <div id="plant-stages-reference" class="plant-stages"></div>
+    </section>
+
+    <!-- История изменений (timeline) -->
+    <section class="content-section">
+        <div class="section-title">История роста</div>
+        <div id="plant-history" class="plant-history-section"></div>
+    </section>
+
+</main>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 3. СКРИПТЫ === -->
+<!-- ========================================================================= -->
+
+<script src="../assets/js/core/constants.js?v=release"></script>
+<script src="../assets/js/core/api_client.js?v=release"></script>
+<script src="../assets/js/core/page_registry.js?v=release"></script>
+<script src="../assets/js/core/router.js?v=release"></script>
+<script src="../assets/js/core/auth_guard.js?v=release"></script>
+<script src="../assets/js/core/notification.js?v=release"></script>
+<script src="../assets/js/core/utils.js?v=release"></script>
+
+<script src="../assets/js/services/auth_service.js?v=release"></script>
+<script src="../assets/js/services/timer_service.js?v=release"></script>
+
+<script src="../assets/js/services/social_service.js?v=release"></script>
+<script src="../assets/js/components/navigation_component.js?v=release"></script>
+<script src="../assets/js/components/plant_display_component.js?v=release"></script>
+<script src="../assets/js/components/empty_state_component.js?v=release"></script>
+
+<script src="../assets/js/pages/plant.js?v=release"></script>
+
+</body>
+</html>

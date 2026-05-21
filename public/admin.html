@@ -1,0 +1,133 @@
+<!--
+ * @file public/admin.html
+ * 🌐 СТРАНИЦА: Админ-панель — статистика платформы, быстрый доступ, последние события.
+ *
+ * @package AdQuercum
+ * @author dianaBELOVA
+ *
+ * НАЗНАЧЕНИЕ:
+ *   Админ-панель — статистика платформы, быстрый доступ, последние события.
+ *
+ * СТРУКТУРА:
+ *   1. НАВИГАЦИЯ
+ *   2. КОНТЕНТ
+ *   3. СКРИПТЫ
+ -->
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="">
+    <title>Админ-панель — Ad Quercum</title>
+
+    <link rel="icon" href="../assets/images/favicon.ico?v=release" sizes="any">
+    <link rel="icon" href="../assets/images/favicon-512x512.png?v=release" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png?v=release">
+    <meta name="theme-color" content="#5B8C5A">
+
+    <link rel="stylesheet" href="../assets/fonts/fonts.css?v=release">
+    <link rel="stylesheet" href="../assets/css/global.css?v=release">
+    <link rel="stylesheet" href="../assets/css/components.css?v=release">
+    <link rel="stylesheet" href="../assets/css/domain.css?v=release">
+    <link rel="stylesheet" href="../assets/css/layouts.css?v=release">
+
+    <script src="../assets/js/vendor/lucide.min.js?v=release"></script>
+</head>
+<body class="is-app-booting">
+
+<!-- ========================================================================= -->
+<!-- === 🧱 1. НАВИГАЦИЯ === -->
+<!-- ========================================================================= -->
+
+<div id="navigation"></div>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 2. КОНТЕНТ === -->
+<!-- ========================================================================= -->
+
+<main class="container admin-page">
+
+    <nav class="breadcrumb">
+        <a href="index.html">Главная</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Админ-панель</span>
+    </nav>
+
+    <header class="page-header">
+        <h1 class="page-header-title">Дашборд администратора</h1>
+    </header>
+
+    <!-- Сводные карточки статистики (рендер admin.js) -->
+    <section id="admin-stats" class="admin-stats">
+        <p>Загрузка…</p>
+    </section>
+
+    <!-- Быстрые ссылки -->
+    <section class="content-section">
+        <header class="section-header">
+            <div class="section-title">Быстрый доступ</div>
+        </header>
+        <div class="quick-links">
+            <a class="quick-link" href="admin-users.html">
+                <div class="quick-link-icon">
+                    <i data-lucide="users"></i>
+                </div>
+                <div>
+                    <div class="quick-link-text">Управление пользователями</div>
+                    <div class="quick-link-desc">Роли, блокировки, поиск</div>
+                </div>
+                <div class="quick-link-arrow">
+                    <i data-lucide="chevron-right"></i>
+                </div>
+            </a>
+            <a class="quick-link" href="admin-moderation.html">
+                <div class="quick-link-icon">
+                    <i data-lucide="shield-check"></i>
+                </div>
+                <div>
+                    <div class="quick-link-text">Модерация</div>
+                    <div class="quick-link-desc">Произведения, издания, дубликаты</div>
+                </div>
+                <div class="quick-link-arrow">
+                    <i data-lucide="chevron-right"></i>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Последние события -->
+    <section class="content-section">
+        <header class="section-header">
+            <div class="section-title">Последние события</div>
+        </header>
+        <ul id="admin-activity-log" class="activity-log">
+            <li class="activity-item"><div class="activity-content"><div class="activity-text">Загрузка…</div></div></li>
+        </ul>
+    </section>
+
+</main>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 3. СКРИПТЫ === -->
+<!-- ========================================================================= -->
+
+<script src="../assets/js/core/constants.js?v=release"></script>
+<script src="../assets/js/core/api_client.js?v=release"></script>
+<script src="../assets/js/core/page_registry.js?v=release"></script>
+<script src="../assets/js/core/router.js?v=release"></script>
+<script src="../assets/js/core/auth_guard.js?v=release"></script>
+<script src="../assets/js/core/notification.js?v=release"></script>
+<script src="../assets/js/core/utils.js?v=release"></script>
+
+<script src="../assets/js/services/auth_service.js?v=release"></script>
+<script src="../assets/js/services/admin_service.js?v=release"></script>
+
+<script src="../assets/js/services/social_service.js?v=release"></script>
+<script src="../assets/js/components/navigation_component.js?v=release"></script>
+<script src="../assets/js/components/activity_log_component.js?v=release"></script>
+
+<script src="../assets/js/pages/admin.js?v=release"></script>
+
+</body>
+</html>

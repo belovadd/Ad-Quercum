@@ -1,0 +1,146 @@
+<!--
+ * @file public/personal-data-consent.html
+ * 🌐 СТРАНИЦА: Согласие на обработку персональных данных.
+ *
+ * @package AdQuercum
+ * @author dianaBELOVA
+ *
+ * НАЗНАЧЕНИЕ:
+ *   Отдельный публичный документ согласия на обработку персональных данных.
+ *
+ * СТРУКТУРА:
+ *   1. НАВИГАЦИЯ
+ *   2. КОНТЕНТ
+ *   3. СКРИПТЫ
+ -->
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="">
+    <title>Согласие на обработку персональных данных — Ad Quercum</title>
+
+    <link rel="icon" href="../assets/images/favicon.ico?v=release" sizes="any">
+    <link rel="icon" href="../assets/images/favicon-512x512.png?v=release" type="image/png" sizes="512x512">
+    <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png?v=release">
+    <meta name="theme-color" content="#5B8C5A">
+
+    <link rel="stylesheet" href="../assets/fonts/fonts.css?v=release">
+    <link rel="stylesheet" href="../assets/css/global.css?v=release">
+    <link rel="stylesheet" href="../assets/css/components.css?v=release">
+    <link rel="stylesheet" href="../assets/css/domain.css?v=release">
+    <link rel="stylesheet" href="../assets/css/layouts.css?v=release">
+
+    <script src="../assets/js/vendor/lucide.min.js?v=release"></script>
+</head>
+<body class="is-app-booting">
+
+<!-- ========================================================================= -->
+<!-- === 🧱 1. НАВИГАЦИЯ === -->
+<!-- ========================================================================= -->
+
+<div id="navigation"></div>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 2. КОНТЕНТ === -->
+<!-- ========================================================================= -->
+
+<main class="container legal-page">
+
+    <nav class="breadcrumb">
+        <a href="index.html">Главная</a>
+        <span class="breadcrumb-separator">/</span>
+        <span>Согласие на обработку персональных данных</span>
+    </nav>
+
+    <header class="page-header">
+        <h1 class="page-header-title">Согласие на обработку персональных данных</h1>
+        <p class="page-header-subtitle">
+            Отдельный документ, подтверждаемый пользователем при регистрации.
+        </p>
+        <div class="legal-meta">
+            <span>Редакция от 16.05.2026</span>
+        </div>
+    </header>
+
+    <article class="legal-content">
+        <section class="legal-section">
+            <h2>1. Согласие пользователя</h2>
+            <p>
+                Регистрируясь в Ad Quercum, пользователь свободно, своей волей и в своём
+                интересе даёт согласие владельцу экземпляра веб-приложения Ad Quercum
+                на обработку персональных данных в соответствии с Федеральным законом
+                от 27.07.2006 № 152-ФЗ «О персональных данных».
+            </p>
+            <p>
+                Настоящее согласие оформляется отдельно от пользовательского соглашения
+                и подтверждается отдельной отметкой в форме регистрации.
+            </p>
+        </section>
+
+        <section class="legal-section">
+            <h2>2. Состав персональных данных</h2>
+            <ul>
+                <li>email пользователя;</li>
+                <li>публичный идентификатор профиля;</li>
+                <li>хеш пароля, используемый для авторизации;</li>
+                <li>имя, фамилия, город, статус, описание профиля и аватар, если пользователь заполняет эти поля;</li>
+                <li>данные пользовательской активности внутри приложения: библиотека, коллекции, оценки, заметки, публикации, комментарии, сообщения, клубы и настройки приватности;</li>
+                <li>технические сведения, необходимые для безопасности и работы сессии.</li>
+            </ul>
+        </section>
+
+        <section class="legal-section">
+            <h2>3. Цели обработки</h2>
+            <ol>
+                <li>создание и обслуживание учётной записи;</li>
+                <li>авторизация пользователя и защита аккаунта;</li>
+                <li>предоставление функций библиотеки, таймера чтения, статистики, профиля, клубов, сообщений и публикаций;</li>
+                <li>модерация пользовательского контента и обеспечение безопасности приложения;</li>
+                <li>исполнение требований законодательства Российской Федерации.</li>
+            </ol>
+        </section>
+
+        <section class="legal-section">
+            <h2>4. Действия с персональными данными</h2>
+            <p>
+                Пользователь даёт согласие на сбор, запись, систематизацию, накопление,
+                хранение, уточнение, извлечение, использование, передачу внутри приложения,
+                обезличивание, блокирование, удаление и уничтожение персональных данных.
+                Обработка может выполняться с использованием средств автоматизации.
+            </p>
+        </section>
+
+        <section class="legal-section">
+            <h2>5. Срок действия и отзыв согласия</h2>
+            <p>
+                Согласие действует до удаления аккаунта, отзыва согласия пользователем
+                или достижения целей обработки. Пользователь может отозвать согласие,
+                обратившись к администрации проекта через доступные контакты владельца
+                экземпляра приложения.
+            </p>
+            <p>
+                После отзыва согласия обработка прекращается, кроме случаев, когда
+                продолжение обработки допускается законодательством Российской Федерации.
+            </p>
+        </section>
+    </article>
+
+</main>
+
+<!-- ========================================================================= -->
+<!-- === 🧱 3. СКРИПТЫ === -->
+<!-- ========================================================================= -->
+
+<script src="../assets/js/core/constants.js?v=release"></script>
+<script src="../assets/js/core/api_client.js?v=release"></script>
+<script src="../assets/js/core/page_registry.js?v=release"></script>
+<script src="../assets/js/core/router.js?v=release"></script>
+<script src="../assets/js/core/utils.js?v=release"></script>
+<script src="../assets/js/services/social_service.js?v=release"></script>
+<script src="../assets/js/components/navigation_component.js?v=release"></script>
+<script src="../assets/js/pages/legal_static.js?v=release"></script>
+
+</body>
+</html>
